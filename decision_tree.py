@@ -190,13 +190,13 @@ def degrees_of_freedom(examples, attribute):
     return result
 
 
-examples = get_training_examples('training-features.txt', 'training-labels.txt')
-root = construct_tree(examples, range(0, 16), 1)
-print 'num nodes: ' + str(count_nodes(root))
-classify_file('test-features.txt', 'predicted-labels.txt', 'test-labels.txt', root)
+# examples = get_training_examples('training-features.txt', 'training-labels.txt')
+# root = construct_tree(examples, range(0, 16), 1)
+# print 'num nodes: ' + str(count_nodes(root))
+# classify_file('test-features.txt', 'predicted-labels.txt', 'test-labels.txt', root)
 #classify_file('training-features.txt', 'predicted-labels.txt', 'training-labels.txt', root)
-leaves = []
-get_leaves(root, leaves)
-top_leaves = sorted(leaves, key=lambda leaf: leaf.hit_count, reverse=True)[:5]
-for leaf in top_leaves:
-    print 'hit count: ' + str(leaf.hit_count) + ', num correct: ' + str(leaf.num_correct) + ', classification: ' + str(leaf.classification)
+# leaves = []
+# get_leaves(root, leaves)
+# top_leaves = sorted(leaves, key=lambda leaf: leaf.hit_count, reverse=True)[:5]
+# for leaf in top_leaves:
+#     print 'hit count: ' + str(leaf.hit_count) + ', num correct: ' + str(leaf.num_correct) + ', classification: ' + str(leaf.classification)
