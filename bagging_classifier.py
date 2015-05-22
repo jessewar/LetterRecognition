@@ -1,4 +1,6 @@
 import decision_tree
+import random
+from collections import Counter
 
 class BaggingClassifier:
       def __init__(self, num_learners, examples):
@@ -7,15 +9,15 @@ class BaggingClassifier:
             self.learners = []
             # Initialize set classifiers
             for i in range(num_learners):
-                  self.learners.append(BaseLearner(self.examples))
+                  self.learners.append(BaseLearner(self.examples, 1))
 
       # Classifies an example by majority vote of all classifiers
       def classify_example(self, example, correct_label):
             counter = Counter()
-            for learner in learners:
+            for learner in self.learners:
                   classification = learner.classify_example(example, correct_label)
                   counter[classification] += 1
-            return max(counter, counter.get)
+            return max(counter, key=counter.get)
 
 class BaseLearner:
       def __init__(self, examples, p_value=1):
@@ -27,10 +29,13 @@ class BaseLearner:
             self.root = decision_tree.construct_tree(sample, range(0, 16), self.p_value)
       
       def classify_example(self, example, correct_label):
-          if self.root.classification is not None:
-                return root.classification
+            return self.classify_example_helper(example, correct_label, self.root)
+
+      def classify_example_helper(self, example, correct_label, curr_root):
+          if curr_root.classification is not None:
+                return curr_root.classification
           else:
-                split_attribute = root.attribute
+                split_attribute = curr_root.attribute
                 attribute_value = example[split_attribute]
-                return classify_example(root.children[attribute_value], example, correct_label)
+                return self.classify_example_helper(example, correct_label, curr_root.children[attribute_value])
 
