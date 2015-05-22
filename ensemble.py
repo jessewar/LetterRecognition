@@ -39,9 +39,10 @@ def ensemble_classify_file(test_feature_file, test_label_file, classifier):
     return str((correct_count / (diff_count + correct_count)))
 
 examples = get_training_examples('training-features.txt', 'training-labels.txt')
-for i in range(30):
-    classifier = BaggingClassifier(1, examples)
-    result = ensemble_classify_file('test-features.txt', 'test-labels.txt', classifier)
+classifier = BaggingClassifier(1, examples)
+for i in range(40):
+    #result = ensemble_classify_file('test-features.txt', 'test-labels.txt', classifier)
+    result = ensemble_classify_file('training-features.txt', 'training-labels.txt', classifier)
     print result
     classifier.add_learner()
 
