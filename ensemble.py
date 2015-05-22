@@ -35,11 +35,15 @@ def ensemble_classify_file(test_feature_file, test_label_file, classifier):
         label_line = test_labels.readline()
     test_features.close()
     test_labels.close()
-    print 'Pecent correctly classified: ' + str((correct_count / (diff_count + correct_count)))
-    return (diff_count, correct_count)
+    #print 'Pecent correctly classified: ' + str((correct_count / (diff_count + correct_count)))
+    return str((correct_count / (diff_count + correct_count)))
 
 examples = get_training_examples('training-features.txt', 'training-labels.txt')
-classifier = BaggingClassifier(10, examples)
-ensemble_classify_file('test-features.txt', 'test-labels.txt', classifier)
+for i in range(30):
+    classifier = BaggingClassifier(1, examples)
+    result = ensemble_classify_file('test-features.txt', 'test-labels.txt', classifier)
+    print result
+    classifier.add_learner()
+
 
 

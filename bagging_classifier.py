@@ -9,7 +9,7 @@ class BaggingClassifier:
             self.learners = []
             # Initialize set classifiers
             for i in range(num_learners):
-                  self.learners.append(BaseLearner(self.examples, 1))
+                  self.learners.append(BaseLearner(self.examples))
 
       # Classifies an example by majority vote of all classifiers
       def classify_example(self, example, correct_label):
@@ -19,14 +19,17 @@ class BaggingClassifier:
                   counter[classification] += 1
             return max(counter, key=counter.get)
 
+      # Adds a learner to the set of learners used in classification
+      def add_learner(self):
+            self.learners.append(BaseLearner(self.examples))
+
 class BaseLearner:
-      def __init__(self, examples, p_value=1):
-            self.p_value = p_value
+      def __init__(self, examples):
             sample = []
             for i in range(len(examples)):
                   random_index = random.randint(0, len(examples) - 1)
                   sample.append(examples[random_index])
-            self.root = decision_tree.construct_tree(sample, range(0, 16), self.p_value)
+            self.root = decision_tree.construct_tree(sample, range(0, 16), 1)
       
       def classify_example(self, example, correct_label):
             return self.classify_example_helper(example, correct_label, self.root)
